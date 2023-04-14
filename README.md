@@ -1,2 +1,2 @@
 # PacketTracer
-A repo on packet tracer
+A repo on CCNA packet tracer
