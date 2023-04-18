@@ -111,6 +111,15 @@ Power cycling a router when all configurations are sitting in the running config
 |service password-encryption|encrypts all current and future passwords|
 |show startup-config|shows start up config|
 |copy running-config startup-config/ copy run start/ write memory/ wr|Copies contents of the running config to the startup config|
+|fastEthernet 0/24| Entering the port number|
+|switchport mode access|unconditionally going to be an access point|
+|switchport access vlan 150| you are going to be part of VLAN 150 at this point|
+|shwo VLAN brief|shows details about the VLAN|
+|show interface fastEthernet 0/24 switchport||
+|switch port mode access|Unconditionally sets a port to access mode|
+|switch port mode access vlan 150|Puts the port to 150|
+
+|name XXXX|naming a VLAN|
 |||
 |||
 |||
@@ -123,13 +132,85 @@ Power cycling a router when all configurations are sitting in the running config
 |||
 |||
 |||
-|||
-|||
-|||
-|||
-|||
-|||
-|||
+
+### Links on a switch
+
+##### Access link
+
+Two steps to create an access port:
+- Create a VLAN 
+- Assign that VLAN to a port
+
+As soon as that port becomes part of the VLAN it becomes an access port
+Then the port becomes an access port.
+
+##### Trunk Link
+Can have multple VLANS at once/ at a time
+
+###### frame tagging
+
+Switch puts a tag on each frame so the other can identify it
+Each frame has an identifier
+
+frame tagging is done using protocols
+
+####### InterSwitch link
+Cisco propriety
+
+Takes an original frame from one switch and encapsulates it in a new 26 byte head with a 4 byte footer with a frame
+The new frame has a new field in it that identifies the VLANS being carried inside
+
+######## IEEE802.1Q dot1q
+Open standard
+Inserts a 4 byte field in the original field and it is a tag identifying what field that VLAN belongs to.
+Maximum transmission unit for ehtenet is 1500bytes
+Adding 4 bytes of a dot1q to it giveth you 1504 bytes
+
+> Native VLAN feature of a dot1q trunk
+This is the VLAN not tagged
+Transverses the trunk without a tag
+
+ISL adds a 26 byte header, 4 byte tag is much easier to process hence IEE802.1q is better
+
+
+#### Dynamic trunking protocol/ DTP
+
+Perfoms automatic trunk negotiation between switches that are connected on port. 
+
+- Dynamic desireable mode
+
+It will send DTP frames and respond to DTP frames from the other end of the link
+Switch models that end with the number 50 will have all its ports in Dynamic desirable mode.
+When connected with crossover cables....an Trunk will automatically come up.
+
+> Crossover cables are used for simillar devices
+> Straight-through cables are used for disimilar devices
+
+Both sides are going to send and respond to frames from the other side.
+Port initiates trunking
+
+- Dynamic auto mode 
+
+Port does not initiate trunking
+Port responds to DTP frames from the other side but will not send DTP frames from the other side.
+
+
+Switch modes with their number 60 have their ports in dynamic auto mode by default. So when switches connected back to back with each other with a crossover cable, trunk won't come up.
+
+You respond to DTP frames you don't send them.
+
+- Simplty mode on
+
+Sets the local port to trunking unconditionally
+Will send and respond to DTP frames
+
+
+
+
+
+
+
+
 
 
 
