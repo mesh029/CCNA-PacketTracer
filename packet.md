@@ -118,7 +118,6 @@ Power cycling a router when all configurations are sitting in the running config
 |show interface fastEthernet 0/24 switchport||
 |switch port mode access|Unconditionally sets a port to access mode|
 |switch port mode access vlan 150|Puts the port to 150|
-
 |name XXXX|naming a VLAN|
 |||
 |||
@@ -144,23 +143,23 @@ Two steps to create an access port:
 As soon as that port becomes part of the VLAN it becomes an access port
 Then the port becomes an access port.
 
-##### Trunk Link
+### Trunk Link
 Can have multple VLANS at once/ at a time
 
-###### frame tagging
+#### frame tagging
 
 Switch puts a tag on each frame so the other can identify it
 Each frame has an identifier
 
 frame tagging is done using protocols
 
-####### InterSwitch link
+#### InterSwitch link
 Cisco propriety
 
 Takes an original frame from one switch and encapsulates it in a new 26 byte head with a 4 byte footer with a frame
 The new frame has a new field in it that identifies the VLANS being carried inside
 
-######## IEEE802.1Q dot1q
+#### IEEE802.1Q dot1q
 Open standard
 Inserts a 4 byte field in the original field and it is a tag identifying what field that VLAN belongs to.
 Maximum transmission unit for ehtenet is 1500bytes
