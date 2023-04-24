@@ -119,18 +119,6 @@ Power cycling a router when all configurations are sitting in the running config
 |switch port mode access|Unconditionally sets a port to access mode|
 |switch port mode access vlan 150|Puts the port to 150|
 |name XXXX|naming a VLAN|
-|||
-|||
-|||
-|||
-|||
-|||
-|||
-|||
-|||
-|||
-|||
-|||
 
 ### Links on a switch
 
@@ -198,10 +186,46 @@ Switch modes with their number 60 have their ports in dynamic auto mode by defau
 
 You respond to DTP frames you don't send them.
 
-- Simplty mode on
+- Simply mode on
 
 Sets the local port to trunking unconditionally
 Will send and respond to DTP frames
+
+
+A VLAN IS A LAYER 2 BRODDCAST DOMAIN
+
+### Trunking configuration 
+
+n.802.1q
+> n - negotiate
+> 108.1q- Trunking protocol
+
+Native vlan of a .1q trunk is the vlan that goes across the trunk untagged
+By default all vlans are allowed on a trunk
+
+|Command	|Description|
+| ----------- | ----------- |
+|configure t|Enter config mode|
+|int fastethernet 0/1||
+|do show interface fastethernet 0/1 switchport, switch port mode dynamic desirable, do show interface trunk|Autonegotiate trunking|
+|switchport trunk allowed vlan|View alloed vlans on the trunk|
+|trunk allowed vlan 1, 150, 200-220|set allowed vlans over the trunk|
+|switchport trunk native vlan 150|vlan will not add a tag to vlan 150 unless its not native|
+|switchport mode trun, do show interface trunk||
+|switch port encapsulation dot1q|Set protocol manually|
+|shut|shuts down the swithc|
+|no shutdown|powers it back on|
+|switchport no negotiate|No trunk negotiation with the other end at this point/ turns off dtp|
+|do show interface fastethernet0/1 switchport|checks trunking info of the switch|
+|do show running-config|current configurations|
+|do show start|startukp configuration|
+|copy running-config startup-config||
+|show interface trunk|view details about the trunking|
+
+
+No n infront of the trunking protocol means you are not negotiating the trunking anymore
+
+
 
 
 
