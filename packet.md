@@ -225,9 +225,86 @@ By default all vlans are allowed on a trunk
 
 No n infront of the trunking protocol means you are not negotiating the trunking anymore
 
+## Spanning tree protocol
+
+Created by Radia Prolman (1970) while working for zerox
+- Prevents links or loops from looping around a network when there are redundant path present
+- Switch floods out unknown unicast frames resulting in a loop 
+- PC's can crush since too much frames will gather looping around the network
+- This is a LAYER 2 STORM OR A BROADCAST STORM
+- Switches update their MAC address tables (TRASHING THE MAC TABLE), no forwarding decisions are made hence enough traffic cues up on the switch causing it to crush. So the spanning tree protocol shuts down redundant links.
+- Works to prevent loops tbetween switches when there are redundant links present.
+- Spanning ttree is on by default on all switches
+- When switches powrer up, the spanning tree protocol is sent between each other spanning tree protocoal frames called BPDU (Bridge protocol Data Unit) Sent every two seconds outS
+
+> #Steps for the Spanning Tree Protocol to Converge
+> > 1. Elect one root bridge per layer 2 domain/ elect one designated port per segment
+> > - Elect one switch to be a root bridge
+> > 2. Elect non root port per non root switch
+> > - For the others, we elect a root port
+> > 3. Elect one designated port per segment
+> > - A segment is a link between two switches
+
+
+> #Spanning tree convergence process
+> >### i) Elect one desi
+> >
+
+> #Spanning tree decision process
+> >### i) Lowest bridge ID
+> >### ii) Lowest path cost
+> >Route port election per non root switch
+> > > - Only happens on non root switches
+> > > - Happens according to Root PAth Cost
+> > > >Root path cost - This is the distance for each link speed
+> >|SPEED|Root Path Cost|
+> >|-----------|--------------|
+> >|10mb/s| 100 |
+> >> >|100mb/s| 19 |
+> >|1000mb/s| 4 |
+> > - Btw...FastEthernet - Path cost = 19 and the root switch is the only one sending BPDUs
+> > - The root path cost inside of a BPDu is incremented when a BPDU enters a switch not when it leaves a switch
+> > - So Root Path Cost starts at zero
+> > - Lowest Root Path Cost is elected
+
+> > > - 
+
+> >### ii) Lowest sender bridge ID
+> > - When the route path costs are equivalent, the switch has got no choice but to move to the next step in spanning tree decision process
+> > - The sender bridge ID, is the bridge ID of the switch sending the BPDU.
+> > - Switch compares the sender bridge ID, then selects the one with the lower bridge ID. I.e, a switch withe the MAC address BBBB will be selected over one with the MAC Address CCCC
+> > - if there are two or more ports with the same sender bridge ID, then the switch moves to the last step of the spanning tree decision process
+
+> >### ii) Lowest sender port ID
+> > Id of the sending switch
+> > The port with the lowest sender port ID becomes the root port
+
+
+> > > 
 
 
 
+When switches power up they imediately start sending frames to each other out of all ports called BPDU's
+- BPDU's havefour fields
+> ### i) Route bridge id
+> > Priority field + MAC address
+> > | |MAC ADDRESS|PRIORITY FIELD|
+> >  |-----------|--------------|
+> > |BITS|48|16|
+> > |^ 2||65536|
+> > |RANGE|48|0-65535|
+> > |SWITCH SETTINGS ID BRIDGE ID||32768|
+> >- Switch with the lowest MAC Address becomes the route because the switch with the loweest bridge
+> >- Each switch initially announces itself as the root and sets the Root Bridge ID field id in the BPDU equal to the its Sender ID field
+> >- When a switch recievesa a BPDU from another switch with a better Bridge ID(lower bridge ID) It stops sending its own BPDU and starts relaying superior BPDU's
+> >- Given enough time, the switch with the lowest Bridge ID(In this case one with the lowest MAC address) becomes the root switch
+> - So switch A becomes root and continues sending BPDUs and every other switch relaying BPDUs sent by the root switch
+>
+> ### ii) Route path crossed
+> ### iii) Sender bridge id
+> Id of the sending switch
+> ### iv) Sender port id
+> Id of the sending switch
 
 
 
