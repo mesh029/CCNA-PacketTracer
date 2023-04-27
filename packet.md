@@ -240,15 +240,12 @@ Created by Radia Prolman (1970) while working for zerox
 > #Steps for the Spanning Tree Protocol to Converge
 > > 1. Elect one root bridge per layer 2 domain/ elect one designated port per segment
 > > - Elect one switch to be a root bridge
-> > 2. Elect non root port per non root switch
+> > 2. Elect a root port per non root switch
 > > - For the others, we elect a root port
 > > 3. Elect one designated port per segment
 > > - A segment is a link between two switches
 
 
-> #Spanning tree convergence process
-> >### i) Elect one desi
-> >
 
 > #Spanning tree decision process
 > >### i) Lowest bridge ID
@@ -306,6 +303,35 @@ When switches power up they imediately start sending frames to each other out of
 > ### iv) Sender port id
 > Id of the sending switch
 
+### Electing one designated port per segment
+
+Designated port per segment is also selected according to the route path cost
+- The lowest route path cost wins
+- All ports on a route bridge will become a designated port
+
+
+### Root ports and designated ports
+- Initally all ports are put in blocking(no BPDPUs are being fowarded- lasts 20seconds)
+- Listening then happens for 15 senconds(BPDU's are being sent are being received, route bridge and  route bridge elections are happening ) AKA spanning tree forward delay
+- Learning stage also lasts 15 seconds and is called forward delay(No data traffic flowing but switches are still populating the MAC address tables, to reduce flooding, once the switch is due start fowarding data traffic the mac address tables is populated as much as possible to reduce flooding once forwarding starts )
+- The switch starts forwarding data traffic
+- Designated and root ports are put in forwarding now.
+- Non designated/ alternate ports are put in blocing
+- hence no loops because the alternate ports are blocked
+
+
+
+$## Per VLAN spanning tree protocol PVST
+
+- 5 vlans means 1 spanning tree per vlan
+> Common spanning tree 
+> or Regular spanning tree
+
+- Each link is blocking for a seperate VLAN however it is being used for some traffic so bandwidth is not wasted completely because each link is being used for each of the vlans
+- Better bandwidth utilization
+- The Bridge ID now consists of a 4 bit vlan id plus 12 bit priority plus 48 bit MAC
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/pvst1.PNG)
 
 
 
