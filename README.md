@@ -415,7 +415,7 @@ Commands
 - Configuration revision - how many changes have been made to vlan.dat file
 - A vtp transparent switch has its configuration revision set to zero because it is a count of the modifications made by the server switch to the vlan.dat file
 - A transparent switch does not participate in vtp. It only relays vtp information.
-- 
+- VTP version 2 supports token ring VLANs 1 does not support token ring
 
 
 | Command     | Description |
