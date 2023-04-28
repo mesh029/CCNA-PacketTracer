@@ -410,11 +410,26 @@ Commands
 - 
 
 ### Lab on vlan trunking protocol
-By default, all switches are on server mode
+- By default, all switches are VTP server switches
+- All network, if ur using DTP, must be in the same domain else switches wont communicate
+- Configuration revision - how many changes have been made to vlan.dat file
+- A vtp transparent switch has its configuration revision set to zero because it is a count of the modifications made by the server switch to the vlan.dat file
+- A transparent switch does not participate in vtp. It only relays vtp information.
+- 
 
 
 | Command     | Description |
 | ----------- | ----------- |
+|vtp mode server|sets a switch to VTP server mode|
+|vtp domain ccna|Creates a |
+|vtp password cisco| changes password|
+|do show vtp status|shows details of the vtp|
+|vtp version 2|run a different version of vtp|
+|vlan 123| creates VLAN 123|
+|do show vlan brief|shows vlan details|
+|no vlan 123| negates the vlan|
+|do show vtp password|shows the vtp password|
+|vtp mode transparent|puts the switch in transparent mode|
 |||
 |||
 |||
@@ -422,6 +437,9 @@ By default, all switches are on server mode
 |||
 |||
 |||
+|||
+|||
+
 
 
 
