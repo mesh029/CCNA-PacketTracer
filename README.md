@@ -460,9 +460,7 @@ Created by Radia Prolman (1970) while working for zerox
 - Route port election per non root switch
 
 >  - Only happens on non root switches
-
 >  - Happens according to Root PAth Cost
-
 > - Root path cost - This is the distance for each link speed
 
 |SPEED|Root Path Cost|
@@ -472,11 +470,8 @@ Created by Radia Prolman (1970) while working for zerox
 |1000mb/s| 4 |
 
 >- Btw...FastEthernet - Path cost = 19 and the root switch is the only one sending BPDUs
-
 > - The root path cost inside of a BPDu is incremented when a BPDU enters a switch not when it leaves a switch
-
 > - So Root Path Cost starts at zero
-
 > - Lowest Root Path Cost is elected
 
 
@@ -504,16 +499,16 @@ When switches power up they imediately start sending frames to each other out of
 
 - BPDU's havefour fields
 
- ### i) Route bridge id
+### i) Route bridge id
 
 Route bridge id = Priority field + MAC address
 
 | |MAC ADDRESS|PRIORITY FIELD|
 |-----------|--------------|
-|BITS|48|16|
-|^ 2||65536|
-|RANGE|48|0-65535|
-|SWITCH SETTINGS ID BRIDGE ID||32768|
+ |BITS|48|16|
+ |^ 2||65536|
+ |RANGE|48|0-65535|
+ |SWITCH SETTINGS ID BRIDGE ID||32768|
 
 - Switch with the lowest MAC Address becomes the route because the switch with the loweest bridge
 - Each switch initially announces itself as the root and sets the Root Bridge ID field id in the BPDU equal to the its Sender ID field
@@ -562,15 +557,12 @@ Designated port per segment is also selected according to the route path cost
 
 
 
-
-$## Per VLAN spanning tree protocol PVST
-
+### Per VLAN spanning tree protocol PVST
 
 
 - 5 vlans means 1 spanning tree per vlan
 
 > Common spanning tree 
-
 > or Regular spanning tree
 
 
@@ -621,7 +613,6 @@ Commands
 
 - Switch ports by default are disabled...ports on routers, however, are in administratively down mode
 
-- 
 
 
 
@@ -665,52 +656,29 @@ Commands
 
 - Operates in 3 modes
 
- > ### VTP Server mode
-
+### VTP Server mode
  > The Server switch can modify its vlan.dat
-
  > - modifications include: 
-
  > > - Adding a vlan
-
  > > - Deleting a vlan
-
  > > - Renaming a vlan
-
  > > - Changing a vlan's mtu(maximum transmision unit(default = 1500bytes))
-
-
-
  > The modifications are carried downstream from the server swtich in VTP advertisemends
 
- 
-
- >### VTP client mode
+### VTP client mode
 
  > - The client switch will listen to this modifications sent by the server switch and do so accordingly
-
  > - The client switch however is not allowed to edit the vlan.dat
-
- 
 
  > ### VTP transparent mode
 
  > - The VTP transparent mode switch will relay VTP advertisments but won't comply with the server switche's demands
-
  > - The switch will however foward VTP advertisements to downstream clients
-
  > Can modify its vlan.dat file
-
  > > - Can add its own vlans
-
  > > - Can delete its own vlans
-
  > > - Change the vlan mtu
-
  > > - Change the vlane name
-
-- 
-
 
 
 ### Lab on vlan trunking protocol
