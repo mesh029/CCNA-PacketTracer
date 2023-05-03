@@ -420,15 +420,15 @@ Created by Radia Prolman (1970) while working for zerox
 
 
 
- #Steps for the Spanning Tree Protocol to Converge
+ # Steps for the Spanning Tree Protocol to Converge
 
-** 1.  Elect one root bridge per layer 2 domain/ elect one designated port per segment**
+ 1.  Elect one root bridge per layer 2 domain/ elect one designated port per segment
 - Elect one switch to be a root bridge
 
-** 2. Elect a root port per non root switch**
+ 2. Elect a root port per non root switch
 - For the others, we elect a root port
 
-** 3. Elect one designated port per segment**
+ 3. Elect one designated port per segment
 - A segment is a link between two switches
 
 
