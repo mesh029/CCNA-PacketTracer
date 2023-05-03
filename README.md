@@ -642,7 +642,7 @@ Commands
 
 ### VTP Server mode
  > The Server switch can modify its vlan.dat
- > - modifications include: 
+ > modifications include: 
  > > - Adding a vlan
  > > - Deleting a vlan
  > > - Renaming a vlan
@@ -654,7 +654,8 @@ Commands
  > - The client switch will listen to this modifications sent by the server switch and do so accordingly
  > - The client switch however is not allowed to edit the vlan.dat
 
- > ### VTP transparent mode
+
+### VTP transparent mode
 
  > - The VTP transparent mode switch will relay VTP advertisments but won't comply with the server switche's demands
  > - The switch will however foward VTP advertisements to downstream clients
@@ -760,7 +761,7 @@ Network layer controlls communication between broadcast domains
 Apply for the below table
 
 |Class|Value of first octet|Subnet mask|Classless interdomain routing notation(CIDR)|
-|--------|---------|--------|---------|----------|
+|--------|---------|--------|---------|
 |A|1-126|255.0.0|/8|example: 10.10.10.10/8|
 |B|128-191|255.255.0.0|/16|150.101.45.45/16|
 |C|192-223|255.255.255.0|/24|200.0.0.30/24|
