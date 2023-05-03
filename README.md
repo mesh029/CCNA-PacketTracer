@@ -510,10 +510,10 @@ Route bridge id = Priority field + MAC address
 
 | |MAC ADDRESS|PRIORITY FIELD|
 |-----------|--------------|
- |BITS|48|16|
- |^ 2||65536|
- |RANGE|48|0-65535|
- |SWITCH SETTINGS ID BRIDGE ID||32768|
+|BITS|48|16|
+|^ 2||65536|
+|RANGE|48|0-65535|
+|SWITCH SETTINGS ID BRIDGE ID||32768|
 
 - Switch with the lowest MAC Address becomes the route because the switch with the loweest bridge
 - Each switch initially announces itself as the root and sets the Root Bridge ID field id in the BPDU equal to the its Sender ID field
