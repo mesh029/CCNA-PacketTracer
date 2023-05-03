@@ -760,8 +760,8 @@ Network layer controlls communication between broadcast domains
 - Multicast - Magazine like transmision, one to many transmission but the host has to be subscribed
 Apply for the below table
 
-|Class|Value of first octet|Subnet mask|Classless interdomain routing notation(CIDR)|
-|--------|---------|--------|---------|
+|Class|Value of first octet|Subnet mask|Classless interdomain routing notation(CIDR)||
+|--------|---------|--------|---------|----------------|
 |A|1-126|255.0.0|/8|example: 10.10.10.10/8|
 |B|128-191|255.255.0.0|/16|150.101.45.45/16|
 |C|192-223|255.255.255.0|/24|200.0.0.30/24|
