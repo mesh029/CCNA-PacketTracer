@@ -27,9 +27,7 @@ Packet tracer is a cross platform visual simulation tool designed by cisco syste
 * Setting router name to R1
 
 > command: *enable*
-
 > > *configure*
-
 >>> *hostname R1*
 
 * Set privileged mode password to cisco
@@ -47,9 +45,7 @@ Packet tracer is a cross platform visual simulation tool designed by cisco syste
 * Set console line to lab 
 
 > command: *line con 0*
-
 > > password lab
-
 > > login
 
 
@@ -57,9 +53,7 @@ Packet tracer is a cross platform visual simulation tool designed by cisco syste
 * Set auxilary line password to cisco lab
 
 > command: *line aux 0*
-
 > > password lab
-
 > > login
 
 
@@ -103,13 +97,9 @@ By default RIP auto summarizes the routes so we have to disable the summarizatio
 * Assign IP Addresses for all routers
 
 > command: *enable*
-
 > > *configure*
-
 >>> *in fa 0/0 (fa means fast ethernet port)*
-
 > ip add 192.168.1.2 255.255.255.0 / 192.168.2.1/ 192.168.2.1
-
 > no sh
 
 
@@ -125,9 +115,7 @@ By default RIP auto summarizes the routes so we have to disable the summarizatio
 * Set router 0 name as Arizona, router 1 as Virginia, router 2 as NY
 
 > command: *line con 0*
-
 > > password lab
-
 > > login
 
 
@@ -145,9 +133,7 @@ se 2/0 of router 2 - connection to branch 1
 
 
 > command: *line aux 0*
-
 > > password ciscolab
-
 > > login
 
 
@@ -320,7 +306,6 @@ When connected with crossover cables....an Trunk will automatically come up.
 
 
 > Crossover cables are used for simillar devices
-
 > Straight-through cables are used for disimilar devices
 
 
@@ -374,7 +359,6 @@ A VLAN IS A LAYER 2 BRODDCAST DOMAIN
 n.802.1q
 
 > n - negotiate
-
 > 108.1q- Trunking protocol
 
 
@@ -504,11 +488,11 @@ When switches power up they imediately start sending frames to each other out of
 Route bridge id = Priority field + MAC address
 
 | |MAC ADDRESS|PRIORITY FIELD|
-|-----------|--------------|
- |BITS|48|16|
- |^ 2||65536|
- |RANGE|48|0-65535|
- |SWITCH SETTINGS ID BRIDGE ID||32768|
+|------------|-----------|--------------|
+|BITS|48|16|
+|^ 2||65536|
+|RANGE|48|0-65535|
+|SWITCH SETTINGS ID BRIDGE ID|_|32768|
 
 - Switch with the lowest MAC Address becomes the route because the switch with the loweest bridge
 - Each switch initially announces itself as the root and sets the Root Bridge ID field id in the BPDU equal to the its Sender ID field
