@@ -950,6 +950,91 @@ Last octet....
 |BBBB|AAAA|<table><tr><td>Destination MAC<td>Src MAC<td>Data<td>FCS (CRC)</tr><tr><td>10.10.10.2<td/>10.10.10.1<td>data<td>FCS(CRC)</td><tr/></table>|FCS handling CRC|
 
 
+- The act of encapsulation means I take the layer 3 packet and put it into the data portion of the frame
+- Host1 will thn transmit the frame over to host2
+- Host2 receives the frame and matches the destination MAC address with its own MAC
+- Host2 knows the frame is meant for it
+- Host2 decapsulates the frame and extracts the original packet 
+- Host2 matches the destination packet in the packet with its own
+- Host2 sends back the ICMP echo reply!!
 
 
 
+*****
+
+# Layer 3 labs
+
+**Commands**
+
+- To make changes go into that port
+
+**Router house keeping* **
+
+|Command|description|
+|-----|------|
+|conf t||
+|no ip domain-look||
+|hos r2||
+|line con 0||
+|logg synch||
+|no exec-timeout||
+
+
+|Command|description|
+|-----|------|
+|do show ip interface brief|Look at all the router interfaces at the same time|
+|ip address ?|Assigns an ip address|
+|ip address 105.101.45.1 ?|Assign subnet mask|
+|no shutdown|Brings a port up|
+|do wr|save work|
+|show ip arp|show arp cache or table|
+|clear arp-cahe|clear arp cache|
+|show interfaces fastEthernet0/0|shows details about an interface|
+|debug ip icmp|takes internal processing of the router and puts it on the screeen. Don't use debug command in production|
+|u(debug) all|turn off debug|
+|debug ip packet||
+|ping broadcast address|ping goes to everybody in the network|
+
+
+
+
+*****
+
+# Serial connections
+How to bring up serial point to point links
+
+- A router will have a serial connection to a CSUDSU(Termination point/ demarcation point for the ISP)
+- The CSUDSU connects to the ISP Cloud and another CSUDSU on the other end connecting to the remote site router
+- CSDSU is also called A DCE (Data connection Equimpment device)
+- A router is considered a DTE(Data termination equipment device)
+- CSUDSU provides clocking for the router(which is teh physical bit transfer rate between the CSDSU and the router)
+- CSUDSU - Channel Service Unit, Data Service Unit
+- CSUDSU provides these functions:
+- CSUDSU is like a digital modem
+> Clocking- physical bit transfer rate btetween two end devices(Local router and remote router)
+> A DCU provides clocking
+- show ip interface brief command has 3 fields
+> method - layer 1
+> protocol - layer 2
+
+- Denoted with up or down, so up down or up up
+- Layer 2 issues
+> no  keepolives
+> mismatch encapsulation
+> no clock rate set on dce end
+
+### Labs
+
+- The default encapsulation type for a serial interface is High level data link layer control (HDLC)
+- Serial interfaces do not have MAC addresses
+
+**Commands**
+
+|Command|description|
+|-----|------|
+|conf t||
+|show ip interface brief||
+|int serial 0/1/0||
+|ip address x u| where x is the ip address and u is the subnet mask|
+|no shh=|Brings the interface up|
+|no exec-timeout||
