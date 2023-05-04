@@ -906,4 +906,50 @@ Last octet....
 *****
 
 
+# Process of encapsulation and deencapsulation with ARP(Address resolution protocol)
+
+*subnettingquestions.com*
+
+- The pdu at layer 3 are packets
+
+### PACKET
+
+|Destination|Source Ip address|Data Field|Frame Check Sequence(CRC)|
+|---|---|----|---|
+|Ip address of the destination|Ip address of the source||Frame Check sequence that handles the C Redundancy check|
+
+### Encapsulation
+
+- Host 1 and host 2 are connected in the same LAN
+- Host 1's ip address is 10.10.10.1 and host 2's ip address is 10.10.10.2
+- Host 1 wants to ping host 2
+
+
+> **What's Ping**
+- Ping is a testing utility
+- Works with the internet control messaging protocol (icmp)
+- Ping has 2 parts, an echo and an echo reply
+
+
+- Host 1 creates a packet with the source ip address and destination ip address
+- A switch is one data link by default
+- Host 1 needs to create an ethernet frame to send the packet over to host 2, because it uses data link for transmision or local data link
+- Host 1 knows its own mac address but not host 2's
+- Host 1 generate generate an ARP request, requesting for the mac address, for a host with an ip address 10.10.10.2
+- The ARP request is a broadcast sent to the destination address 255.255.255.255 which is the all networks all broadcast subnet address
+- Host 2 replies to the ARP broadcast and the reply is a unicast back to the IP address of host 1
+- Host 2 replies with its own MAC address
+- ARP basically resolves ip addresses to their relevant mac addresses and then stores them in a table
+- The process happens once in host 1
+- Once host 1 has a binding in the table relating the ip of host 2 to its MAC address it wont need to go through the same process again
+- Host1 encapsulates the original ICMP packet and puts it inside the data portion of the ethernet frame it created it'd look sth like this.
+
+
+|Destination|Source Ip address|Data Field|Frame Check Sequence(CRC)|
+|---|---|----|---|
+|BBBB|AAAA|<table><tr><td>Destination MAC<td>Src MAC<td>Data<td>FCS (CRC)</tr><tr><td>10.10.10.2<td/>10.10.10.1<td>data<td>FCS(CRC)</td><tr/></table>|FCS handling CRC|
+
+
+
+
 
