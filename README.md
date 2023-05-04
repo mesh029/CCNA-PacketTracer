@@ -814,3 +814,96 @@ Apply for the below table
 
 - You cannot use the first and last address of any network for your pc (The first address is the network address itself, the last address in any network is the broadcast, any messages sent to this address will be received by all hosts in this netork)
 - Any message sent to the  *Broadcast address* will be received by all hosts in the network
+
+
+*****
+
+
+
+### Classless ip addressing
+
+- In real sense, when buying a class of say 30 IP addresses, one would have to come up with a class c range but you would have acquired an entire class C for example
+- Classfull ip addresses won't work if we needed Addresses less than 254
+
+
+- Example:
+
+> 150.101.45.0
+> This is a clsas B address
+> Should be a /16
+> We need 30 addresses
+> what would the mask look like if we gave it a /27?
+> So 3 bits are turend on in the last octet
+> 255.255.255.224
+
+Last octet....
+
+|1|1|1|0|0|0|0|0|
+|----|----|----|----|----|----|---|---|
+|128|64|32|16|8|4|2|1|
+
+> - 128+64+32 = 224
+> - How many total hosts can be had in this network?
+>> - Network address = 150.101.45.0
+>> - Look at the value of the last bit turned on in the subnet mask which is 32
+>> - This gives you your **block size ** = 32
+
+|Address||
+|---|---|
+ |150.101.45|.0|
+ |First valid host address|.1|
+ |Last valid address on this street|.31|
+|Last possible address on this network|.32|
+ ||.64|
+|||
+ ||.96|
+ 
+> - number of hosts = 2^n - 2 = 2^5-2 = 32-2 = 30
+> - In actual sense we can work backwards
+> - By finding the number of host(n) bits that need to be available to get 30 possible network hosts(in this case 5)
+> - Then subtracting from the subnet mask 32 bits = 32-5 = 27
+> - This will enable you get the subnet mask notation == /27
+> - **Since a /30 or a 252 mask only allows 2 addresses, it should only be used over point to point links**
+> - example:
+> network  address - 150.101.45.0/30
+> subnet mask - 255.255.255.252
+
+|Address||
+|---|---|
+ |150.101.45|.0|
+ |First valid host address|.1|
+ |Last valid address on this street|.2|
+|Last possible address on this network(broadcast)|.3|
+ ||.4|
+|||
+ ||.8|
+ 
+ 
+> - example:
+> network  address - 150.101.64.0/19
+> subnet mask - 255.255.224.0
+
+ |Address|||
+|---|---|---|
+ |150.101|.0|.0|
+ |First valid host address|||
+ |Last valid address on this street|||
+|Last possible address on this network|||
+ ||.64|
+ |First valid host address|.64|.1|
+ |Last valid address on this street|.95|.254|
+|Last possible address on this network(broadcast)|.95|.255|
+|Valid range|.64|.1|
+|through|.95|.254|
+|||
+ ||.96|
+
+
+
+ _Hence classless ip addressing_
+
+
+*****
+
+
+
