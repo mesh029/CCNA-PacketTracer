@@ -1019,7 +1019,7 @@ How to bring up serial point to point links
 
 - Denoted with up or down, so up down or up up
 - Layer 2 issues
-> no  keepolives
+> no  keepalive
 > mismatch encapsulation
 > no clock rate set on dce end
 
@@ -1038,3 +1038,144 @@ How to bring up serial point to point links
 |ip address x u| where x is the ip address and u is the subnet mask|
 |no shh=|Brings the interface up|
 |no exec-timeout||
+|show controllers serial 0/0/0|show details about the serial|
+|show running config|shows the running configuration|
+|clock rate 128000|sets clock rate|
+|encapsulation frame relay|changes encapsulation type|
+|encapsulation hdlc|changes encapsulation type|
+|no keepalive||
+
+
+*****
+
+# Ip routing theory
+
+- Routing is the process of going from one broadcast domain to another
+- Routing is a layer 3 function
+- One layer 3 broadcast doman to anohter layer 3 broadcast domain
+- A switch link within a diagram is one broadcast domain
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/routing1.PNG)
+
+- Host 1 wants to ping host 2
+- Host 2 creates an ICMP(Internect Control messaging protocol) echo message with a source ip address of 10.10.10.1 and a destination address of 20.20.20.2
+- Host 1 needs to create a frame for transmission over the local data link
+- Remember layer 2 controls transmissions on the local data link
+- Host 1 has its own MAC address
+- It however does not have the MAC address of host 2
+- Host 1 sends an ARP request requesting the MAC address of host 2
+- Arp requests are broadcasts and cannot transverse a router by default
+- Arp is a broadcast sent to the address 255.255.255.255 which is an all host broadcast address
+- Arp request reaches router 1
+- It does not know where 20.20.20.2 is because it is not directly connected to it
+- \Since it is not a locally connected net, it replies back to host 1 with the MAC address resideing on f0/0 
+- All routers run a protocol called proxy ARP on the internet interfaces
+- So router 1 proxy's for host 2 and returns its own MAC address to host 1
+- Host 1 creates a frame with source mac address, and destination mac address
+- Host 1 creates the ethernet frame, encapsulates the original ICMP echo packetinside of the data portion of the packet and sends the frame over to R1
+- R1 receives the frame and matches the destination address to its own address and decapsulates the frame
+- Inside of each router, there is a table called the routing table, which has a listing of all remote destianations available to the router and how to gget to them
+- Router needs to create another frame for transmission on the local data link between R1 and R2
+- R1 encapsulates original echo packet in an htlc frame and pushes it out serial 0/0/0 because it discovered, after checking its ip routing table, that network 20.20.20.0/30 is available out serial 0/0/0 thats the route you take to the other network
+- R2 receives the hdlc frame, deencapsulates it and extracts the original echo packet, then compares the destination ip address agains its ip routing table and discovers that the network is directly connected to fa 0/1
+- R2 creates an ethernet frame for transmission on the local data link between R2 and host2
+- If it does not know h2's mac address, it sends an ARP broadcast looking for the MAC address that belongs to the ip address 20.20.20.2
+- H2 receives the broadcast and unicasts back a reply to R2
+- R2 now has host 2's MAC address
+- R2 creates an ethernet frame with source MAC being the MAC address of  the f0/1 interface and destination MAc being BBBB
+- R2 pushes the frame to H2
+- H2 matches the destination mac adddres in the frame with its own address
+- h2, decapsulates the frame and extract the original packet, 
+- Matches the destination address with its own address and if they match H2 will send back an echo reply
+
+**What would be the destination mac address on the return frame from H@?**
+the mac address of the f0/1 interface on R2
+**How many times was the packet encapsulated between H! and H2?**
+3
+***What is the destination mac address as it leaves router one serial 0/0/0?***
+There is no mac address in that frame*
+
+
+
+
+*****
+
+# Static routing
+
+There are two typss of routing a router can perform
+
+## Static routing
+Manually entering routes to remote destinations in your router
+
+|Command|description|
+|-----|------|
+|conf t||
+|ip route (destination ip) (destination mask) (next hop ip address/exit interface of local router)(administrative distance)|- Next hop ip address is the ip address of the router immediate to you once traffic leaves your router, Adminsitrative distance is the trust worthiness of a routing protocol/ route (the lower administrative route the more trust)|
+
+
+
+
+
+|Route| Admministrative distance|
+|-----|------|
+|Connected 0|0|
+|static route|1|
+|route information protocol(rip) route|120|
+|Ennhanced interia gateway routing protocol(EIGRP)|90|
+|Open shortest path first|110|
+
+- Next hop ip address is the ip address of the router immediate to you once traffic leaves your router
+
+### Lab
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/SRL2.PNG)
+
+Create a static routing table that routes from R1 to 10.10.254 and  20.20.20.254 networks
+Put routes of the 10 and 20 networks on the routing table
+
+
+|Command|description|
+|-----|------|
+|show ip route|show routing table|
+|ctrl+shift+6|escape ping sezuence|
+|debug ip pack|debugs|
+|undebug all|turns off ip debuging|
+|show ip address 0.10/1.10|ip interface of the interface|
+|||
+|||
+
+**R 201**
+
+- Always connect routes pointing out an exit interface when you are over a point to point link for example here its s0/0/1
+- Administrative distance can run between 0 and 255
+- Static routes by default have an andministrative route of 1
+- U.U.U is an ICMP message(internet control messageing protocol)
+**Since a route shows as directly corrected does it remain one or changes?**
+ANS: remains at 1
+
+- RIB Route information Base and Routing table are synonymous
+- When creating routes that will leave a multi access interface(Fast ethernet) Always use the next hop router's ip address, not the exit interface
+- 
+
+|Command|description|
+|-----|------|
+|config t||
+|ip route 10.10.10.0 255.255.255.0 150.101.45.2 1||
+|ip route 20.20.20.20 255.255.255.0 s0/0/1 8 (use 150.101.45.2 instead of s0/0/1)||
+|show running config||
+|show ip route static|the output in [] indicates the addministrative distance|
+|show running config|shows running config|
+|traceroute|U can get the ips between onee source and one destination, every router that the trace passes through will send its ip address|
+|debug ip icmp||
+|debug ip packet||
+|do ping address|executing the ping command from config t|
+|ip route 150.101.45.3 255.255.255.255 s0/0/1||
+|ip route 0.0.0.0 0.0.0.0 150.101.45.1|Gateway of last resort|
+|do show ip route|show routing table|
+
+
+- A route to a single address with an all 255 mask is called a host route because it is to a single host
+
+## Dynamic routing
+
+Automatically
