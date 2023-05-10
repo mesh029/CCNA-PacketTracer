@@ -1203,14 +1203,68 @@ When two routers share remote networks/routes/ routes to remote destinations aut
 * Rotue flush timer - time at which the route is completely remove from the ip routing table(120 seconds for rip). RIP Version 1 is classfull(only understands class A,B and C addressing hence subent mask info is **not carried within the routing update** )
 
 
-### Dynamic routing labs
+### RIP configuration labs
 
-
+- We are going to run rip between routers
+- Static routes have administrative routes of 1 but dynamic have 120 so if static routes are still present dynamic ones will not start
+- Network statement defines a range of ip addresses that when present, the interface on which that ip is sitting is included in the routing protocol
+- The primary function /purpose is not to enables the router to send routing updates but to define a range of addresses which when present on the router, then the inteface on which that interface is present is included in the routing protocol 
+- **Rip is a classfull routing protocol and subnet info is not sent in network updates**
+- The right way to put an ip address in the rip is 150.101.0.0 and not 150.101.45.1 depending on the mask
+- Default administrative distance for RIP is 2
+- If 4 paths are available between a destination and your router, RIP version 1 can load balance across the links across verion 1 for up to 4 paths(equal cost paths)
 
 |Command| Description|
 |-----|------|
+|router rip|start routing process on the router|
+|network 200.200.200.0|network statement|
+|do show ip interface brief||
+|show ip route rip|rip specific routes|
+|show ip protocols|check flash times and etc on the test|
+|debug ip rip||
+|version 2| change rip version|
+|No auto summary|makes routing table reflect subnet info |
+|no route rip|removes rip from router| 
+
+
+- Rip version 2 is a classless routing protocol whcih means subnet mask info is sent in the routing updates
+- Rip version 2 updates are sent to 223.0.0.9
+- 
 
 Route Information Protocol (RIP)(The only purte dvrp)
 ### Link state routing protocols
 
+
 Automatically
+
+# Enhanced Interior Gateway Routing Protocol
+- Its an Advanced distance vector running protocol
+- This is because EIGRP updates are non periodic, partial and bounded
+> non-periodic - Only sends an update when there is a change in the topology
+> partial - The contents of the whole routing table are not sent directly connected devices, only changes are sent to neighboring devices
+> bounded - Changes are sent to only devices that need them hence efficients
+
+- Updates are sent to the multicast address 224.0.0.10
+- Since updates are periodic, EIGRP uses hello packets to keep the links alive
+- An erigp packet has a hold time before a neighboring devicee is supposed to wait for me to send another hello packet before considering me time(hold time is usually 3 times the hello interval)
+- For link speeds greater than t1 speeds(1544kbps), hellos are sent every 5 seconds
+- For link speeds less than t1 speeds, the hold time is set to 30 seconds
+- EIRGP stores all its routes in the topology table; even multiple routes to the same destiantion points(feasible successor points)
+- Each route has an associated metric called the feasible distance
+- The best of each of thse routes is plucked from the topology table and implanted into the ip routing table/ route information base and called a successor route.
+- The best route will be the one with the lowest metric/ feasible distance 
+- Reported/advertising distance - Feasible distance for your uplink distance(closer to the network) as reported to you
+- Feasibility condition(also a loop prevention mechanism) - A routes reported distance must be less than the route's feasible distance for the route to be installed in the topology table as a successor route
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/eigrp1.PNG)
+
+calculate the feasible distance and reported distance 
+
+|PATH|Feasibility distance|Reported distance|
+|------|-----|-----|
+|A|80|30|
+|B|100|90|
+|C|110|70|
+
+- So path A becomes the **feasible successor route**
+- If the successor route fails, the next best feasible successor which is path C becomes the beast feasible successor which helps which convergence coz alternate paths to the same destination already exists in the topology table
