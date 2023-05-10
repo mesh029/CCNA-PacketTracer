@@ -1194,13 +1194,13 @@ When two routers share remote networks/routes/ routes to remote destinations aut
 
 **Loop prevention**
 
--- Maximum hop count
--- Split horizon(if i send an update about a network outbound on an interface, I will not accept an inbound update about the same network coming in on that interface)
--- Rule of route poisoning - advertise a down route with an infinite metric(rip is set to 15 is max hop count is 16)
--- Route invalid timer(if a router does not hear from)- A lenght of time a router will wait to hear from an upstream router before declaring that route to be possibly down and stops any routing towards it
--- Hold down timer - Router will not accept any updates about that route for that rate of time. When the route invalid timer has expired after 180seconds, hold down timer is started which is another 180seconds. While the route is in holder 
--- Routers send poisoned updates upstream about a route being possibly down(poison reverse) while in hold down. Advertising a poisoned route back upstream towards the origin of the network with infinite/unreachable metric is called route poisoning.
--- Rotue flush timer - time at which the route is completely remove from the ip routing table(120 seconds for rip). RIP Version 1 is classfull(only understands class A,B and C addressing hence subent mask info is **not carried within the routing update** )
+* Maximum hop count
+* Split horizon(if i send an update about a network outbound on an interface, I will not accept an inbound update about the same network coming in on that interface)
+* Rule of route poisoning - advertise a down route with an infinite metric(rip is set to 15 is max hop count is 16)
+* Route invalid timer(if a router does not hear from)- A lenght of time a router will wait to hear from an upstream router before declaring that route to be possibly down and stops any routing towards it
+* Hold down timer - Router will not accept any updates about that route for that rate of time. When the route invalid timer has expired after 180seconds, hold down timer is started which is another 180seconds. While the route is in holder 
+* Routers send poisoned updates upstream about a route being possibly down(poison reverse) while in hold down. Advertising a poisoned route back upstream towards the origin of the network with infinite/unreachable metric is called route poisoning.
+* Rotue flush timer - time at which the route is completely remove from the ip routing table(120 seconds for rip). RIP Version 1 is classfull(only understands class A,B and C addressing hence subent mask info is **not carried within the routing update** )
 
 
 ### Dynamic routing labs
