@@ -1177,5 +1177,40 @@ ANS: remains at 1
 - A route to a single address with an all 255 mask is called a host route because it is to a single host
 
 ## Dynamic routing
+When two routers share remote networks/routes/ routes to remote destinations automatically by running programs called routing protocols on them.
+
+### Distance Vector running protocols
+- Posses some general qualities
+
+> When a router is running a distance vector protocol, it sends teh contents of its whole routing table every set interval in routing updates
+> Every 30 seconds, route information protocol is gonna send the contents of its whole routing table to all its directly connected neighboring devices
+> This is not a good thing coz every 30 seconds the router next to you is getting hit by the info whether it needs it or not
+
+- The DVRP send their routing updates to 255.255.255.255(All hosts, all networks, all subnets broadcast), not good coz every body on the network is going to hear this update whether or not they want. Unless there is a router to stop the broadcast(Broadcasts can't transverse a router)
+- They use hop count as their metric(measure of distance between the local router and a remote destination/ destination network)
+- Prone to routing loops because they route by rumor(the closer to the destination network you are, that is the source, it becomes supstream)
+- The router doesn't actually know dets about the network
+- Distance Vector Running protocols have an inbuilt loop prevention mechanisms
+
+**Loop prevention**
+
+-- Maximum hop count
+-- Split horizon(if i send an update about a network outbound on an interface, I will not accept an inbound update about the same network coming in on that interface)
+-- Rule of route poisoning - advertise a down route with an infinite metric(rip is set to 15 is max hop count is 16)
+-- Route invalid timer(if a router does not hear from)- A lenght of time a router will wait to hear from an upstream router before declaring that route to be possibly down and stops any routing towards it
+-- Hold down timer - Router will not accept any updates about that route for that rate of time. When the route invalid timer has expired after 180seconds, hold down timer is started which is another 180seconds. While the route is in holder 
+-- Routers send poisoned updates upstream about a route being possibly down(poison reverse) while in hold down. Advertising a poisoned route back upstream towards the origin of the network with infinite/unreachable metric is called route poisoning.
+-- Rotue flush timer - time at which the route is completely remove from the ip routing table(120 seconds for rip). RIP Version 1 is classfull(only understands class A,B and C addressing hence subent mask info is **not carried within the routing update** )
+
+
+### Dynamic routing labs
+
+
+
+|Command| Description|
+|-----|------|
+
+Route Information Protocol (RIP)(The only purte dvrp)
+### Link state routing protocols
 
 Automatically
