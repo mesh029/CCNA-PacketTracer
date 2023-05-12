@@ -1268,3 +1268,161 @@ calculate the feasible distance and reported distance
 
 - So path A becomes the **feasible successor route**
 - If the successor route fails, the next best feasible successor which is path C becomes the beast feasible successor which helps which convergence coz alternate paths to the same destination already exists in the topology table
+
+**EIRGP feasible distance
+**
+
+- EIRGP uses feasible distance as its metric
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/eigrpFormula.PNG)
+
+> Load - current traffic on the link
+> Delay - delay a packet will incur while transversing that link
+> Reliability - how many times in the past hour the link has failed and come back up
+> BandWidt
+
+- If k5 is 0, ignore that half part of the formula
+- K values range between 0-255
+- K is a knob that u can turn (like a weight)
+- If default values are being used, the formula reduces to:
+
+> (BW + Delay)256
+
+**EIRGP variance
+**
+
+- EIRGP can send equal amounts of traffic over multiple links if the metrics match(equal cost load sharing)
+- EIRGP can also do unequal cost load sharing through a concept called variance
+- Variance is the multiplier for the fasible distance/ metric of a successor route in the routing table
+- Any route in the topology table with the metric/ feasible distance less than the product of the feasible distance of the successor route and the variance is also installed in the route info base/routing table
+- The feasible distanc default is q and can range btwn 1 and 128
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/variance%20eigrp.PNG)
+
+- Both paths here have the feasibility condition
+- Both routes get installed in the topology table
+- The top path goes to the routing table for you because it has a less total distance
+- Since variance is set to 1 by default, the top route will be the only one headed to the routing table
+- Bottom route sits in the topology table because it is a feasible successor
+- However for unequal cost sharing, one can add the bottom link to the routing table by picking a variance..eg 2
+
+> FB = 15
+> V = 2
+> 15*2=30
+
+- If variance is set to 2, any feasible successor route that has a feasible distance less than 30 will also get installed in the routing table
+
+
+**EIGRP lab
+**
+
+- EIRGP is classless - does send subnetting information in its routing updates
+
+|command|description|
+|------|------|
+|router eigrp someNo|enable routing protocol|
+|network x.x.x.x wild card||
+
+
+- Getting wildcards:
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/wildCardBitsEIGRP.PNG)
+
+- In a wild card..an on bit is i do not car andd vice versa
+
+** inc...review **
+
+## Eigrp manual sumarization
+
+- 3 networks exist in our topology,
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/eirgpManualSum.PNG)
+
+- A network engineering tells you to stop cluttering their routing table with all the three networks and summarize them into one address
+- Look at an octed that is different in all that network
+- The last octed is different
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/eigrpSum1.PNG)
+
+- The 1s match up 
+- So the rummarized network address would be 30.10.8.0
+- the mask is going to change to 255.255.248.0 /21
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/eirgpsum2.PNG)
+
+- Loop back interfaces - virtual interfaces on the router
+
+|command|description|
+|-----|------|
+|interface loopback 8| creates a loop back interface|
+|ip address 30.10.80.0 255.255.255.0/24|assigns an ip address to the interface|
+|shutdown|shuts down an interface|
+|router eirgp 100||
+|netwfork 30.10.0.0.0.0||
+
+- An off bit in a wild card is a care bit (match it completely)
+
+- Loopback interfaces are up by default
+
+
+
+# Open shortest path first (Link state routing protocol)
+
+- A routing protocol
+- Not a distance routing protocol
+- Routing updates are not sent every set intervals or when the topology changes like in eigrp and rip
+- Each router in ospf upon initialization defines itself in packets called linked state advertisment whcich contains:
+> Routers' links/ interfaces (such as a serial )
+> Ip networks attached on that link (eg 200.0.0.0/30)
+> The metric to get to that network
+
+- each router floods the lsa's through out the topology
+- At the end of the flooding process each router has an LSA from every other router and builds a database of all these LSA's called a link statte databas built on every router. The link state database on one router looks exactly like the one on other routers
+- After the lsdatabase has been built, the shrotest first algorithm is run over the link state database and each router independently calcualates routes to remote destination and puts them in the rib(route information base)
+- thats the difference between ospf and eirgp(rumor approach) because it independently calculates route and puts it in the ** rib**
+- ospf independently the route to remote destinations
+- When two ospf routers first come up, they send each other all their lsa's and synchronize their databases with each other and set to be adjacent/neighboring each other
+- The neighbors are kept in touch through hello message like the eigrp/ the link is kept alive through hello messages
+- The hello message cntains the dead timer inside of it (amount of time im going to wait for the neighboring router to send a hello before considering it down)
+- The dead timer is set by default to 4 times the hello timer
+- Hellos are sent every 30 seconds over non broadcast multi access networks like **frame relays**
+- Hellos are sent to the multicast address 224.0.0.5
+- Certain fields in the hello packet must match for two routers to become ospf neighbors
+-
+> ip subnet and subnet mask of other interface that is talking to the other neighbor
+> Authentication information (for adjacency to form between two ospf neighbors), both sides must have authentication passwords
+> Heallo and dead timers must also  match
+> Area id must match
+
+- Each router picks for itself out of all ip addresses available on the router an router id(an identifier for the router)
+- The  router will prefer the router id if configured with the router id command
+- Else the highest configured loopback ip if the router ip command is not run; else highest physical address
+
+
+>loop back 1000
+>1.1.1.1 /32
+>loop 50
+>loop back 150.150.150/32
+>150.150.150/32 will become the router router id automatically because it doesnt matter what the loop back iterface is but what the ip address is 
+
+
+- over multi access network, if every router became neighbours with each other, you will have alot of adjacency.
+
+> 2(n-1) neighbour relationships where n is the number of routers
+
+- As the number of routers go up, the adjacency increases and this is way too much overhead
+- Multi access networks elect a router called a dr or a designated router/ a back up destinated dr and every router becomes adgacent with the dr and the bdr
+- A designated router is elected according to the ospf router priority
+- All routers have a priority value of 1
+- The higher the priority the better
+- The highest priority router becomes the dr
+- Priority 0 routers do not participoate in designated router and back up designated router election
+- If everyones priority is 1 by default, the router whith the highest router id becomes the designated router
+- However in real networks it doesn't really work that way because you are one person so the routere you configure first sets itself a dr then you have to go change it yourself
+- Dr other routesrs are other routers that are not the designated routers. They send their LSA"s in update packets to the multicast address 224.0.0.6
+- The only routers listening to this address are the dr and the bdr(back up designated routers)
+- The drs reflect these LSA's back to  to eery one else over 224.0.0.5
+
+# OSPF neighbor states
+- 
+- 
