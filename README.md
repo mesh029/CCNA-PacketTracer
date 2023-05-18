@@ -1719,11 +1719,100 @@ calculate the feasible distance and reported distance
 - Chap sends a message digest 5 md5 of the original password over the link and will never be exchanged over that link so both sides must have a database to begin with.
 - The original password/cleartext password is never sent over the link
 
-
 # Cisco discovery protocol
 
 - A layer two protocol used to map out your network
 
 # Frame relay
 
+- Non Broad Cast Multi access technology(NBMA)
+- ethernet is a multi access technology
+- Frame relay supports no MORE THAN TWO DEVICES BEING ON THE NETWORK AT THE SAME TIME, THERE IS HOWEVER NO lAYER 2 FRAM RELAY DESTINATION BROADCAST ADDRESS
+- In ethernet a destination broadcast address is all left
 
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/frameRelayPic.PNG)
+
+- The CE on top stands for customer edge
+- PE router/ first frame relay switch(router with special configuration) is the Provider Edge router
+- Frame relay cloud is a collection of frame relay cloud(collection of frame relay switchs that isfp has done the groundwork connected to each other in a full mesh/almost full mesh)
+- A circuit between two virtual circuit is called a **permanent vritual circuit(pvc)**
+- All traffic between london and Paris must pass through Dc - The topology is called a hub unspoike topology
+- Instead of paying for an extra circuit between london and paris through dc
+- FC being the hub
+- London and paris being unspoke
+- Data link connection Identifier seperates the two circuits (DLCI)
+- A dlci is a near to address for frame relay to seperate pvcs from each other
+- DLCI's are locally significant (just betweeen dc and first frame relay)
+- If the encapsulation type changes from PBC or HDLC, to relay, the DC router starts sending and receiveing LMIs(LOCAL MANAGEMENT Interfaces)
+- LMI's are used for two purposes
+> Anounce all your DLCIs to you(but u still gotta call ur providers to know ur DLCI)
+> Report the end to end circuit health
+> 
+
+- LMIs are sent and received every ten seconds(customer and provider edge)
+- As soon as an ip interface is set, an invers arp is sent down the circuit/pbc to retrieve and resolve the ip address of the other end of the circuit
+- An arp resolves a remote ip to the mac address associated to that ip address at the end of the link
+- An erp arp resolves locally received dlci to the remote at the other end
+- Once you assign an ip to an interface, an inverse arp request is send down to resolve the ip at the other end(layer 2 to layer 3 mapping) only this is called an inverse arp
+
+## Types of relay interfaces
+
+**Multipoint interfaces**(always send erp arp requests)
+
+**Sub interfaces
+** <br>Multipoint and point point
+They do not send inverse arp requests by default; you will have to do something manyally for that to work
+
+
+- - -
+
+
+# IPV6
+
+- An ip address is a 128 bit address written in 8 fields of 16 bits each seperated by a colon
+- Each hex character is 4 bits
+- 
+
+## Rules for shortening ipv6 addresses
+
+- Leading zeros may be omitted in a field
+- Successive fields of all zeros may be represented by a double collon but only once
+
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/ipv6%20address.PNG)
+
+## ipv6 subnet mask
+
+- Only represented in the slash format or slider notation 
+- Subnet mask is called the fprefix because whch equates the network address since it tells you how many bits in the address belongs to the network.
+
+![](https://github.com/mesh029/CCNA-PacketTracer/blob/main/images/ipv6%20subnet%20mask.PNG)
+
+## ipv6 eui address format
+
+- Ipv6 has the ability to create an ipv6 address automatically given the mac address of a host(stateless autoconfiguration)
+- If you gave ipv6 a mac address and a64 bit network address or a 64 prefix, it can auto create an ipv6 address by inserting a mac address into the ipv6 address
+
+## ipv6 neighbor discovery protocol
+
+- uses icmp protocol v6 for discovering neighbors on the local data link for directly attached devices
+
+- Functions
+> mAC address to ipv6 address resolutions
+
+## Hot standby routing protocol
+
+theswe are first hop redundancy protocols
+
+- Cisco propriety protocol
+- Gate way load balancing protocol
+
+
+# Router boot sequence
+
+- The router perfoms a Power On Self Test (POST) to verify/evaluate if all hardware is functioning accordingly
+- A ptogram in rom called bootstrap looks for the os/internet os (defaultly stored in flush) then loads it
+- The ios is expanded into ram and the startup config sitting in nvram is loaded
+- Router looks for any valid config that it may have in nvram then loads it nvram is loaded into run as the running config
+- If startup config is not present in 3, the router will broadcast every ARP interface and start looking for a tftp server
+- If ftp server is not found, router goes into initial configuration dialogue
