@@ -1372,11 +1372,8 @@ calculate the feasible distance and reported distance
 
 
 |command|description|
-
 |------|------|
-
 |router eigrp someNo|enable routing protocol|
-
 |network x.x.x.x wild card||
 
 
@@ -1440,17 +1437,11 @@ calculate the feasible distance and reported distance
 
 
 |command|description|
-
 |-----|------|
-
 |interface loopback 8| creates a loop back interface|
-
 |ip address 30.10.80.0 255.255.255.0/24|assigns an ip address to the interface|
-
 |shutdown|shuts down an interface|
-
 |router eirgp 100||
-
 |netwfork 30.10.0.0.0.0||
 
 
